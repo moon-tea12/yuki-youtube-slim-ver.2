@@ -182,42 +182,42 @@ template = Jinja2Templates(directory='templates').TemplateResponse
 
 
 @app.get("/", response_class=HTMLResponse)
-def home(response: Response,request: Request,yuki: Union[str] = Cookie(None)):
-    if check_cokie(yuki):
-        response.set_cookie("yuki","True",max_age=60 * 60 * 24 * 7)
+def home(response: Response,request: Request,おちぃ〜: Union[str] = Cookie(None)):
+    if check_cokie(おちぃ〜):
+        response.set_cookie("おちぃ〜","True",max_age=60 * 60 * 24 * 7)
         return template("home.html",{"request": request})
-    print(check_cokie(yuki))
+    print(check_cokie(おちぃ〜))
     return redirect("/word")
 
 @app.get('/watch', response_class=HTMLResponse)
-def video(v:str,response: Response,request: Request,yuki: Union[str] = Cookie(None),proxy: Union[str] = Cookie(None)):
-    if not(check_cokie(yuki)):
+def video(v:str,response: Response,request: Request,おちぃ〜: Union[str] = Cookie(None),proxy: Union[str] = Cookie(None)):
+    if not(check_cokie(おちぃ〜)):
         return redirect("/")
-    response.set_cookie(key="yuki", value="True",max_age=7*24*60*60)
+    response.set_cookie(key="おちぃ〜", value="True",max_age=7*24*60*60)
     videoid = v
     t = get_data(videoid)
-    response.set_cookie("yuki","True",max_age=60 * 60 * 24 * 7)
+    response.set_cookie("おちぃ〜","True",max_age=60 * 60 * 24 * 7)
     return template('video.html', {"request": request,"videoid":videoid,"videourls":t[1],"res":t[0],"description":t[2],"videotitle":t[3],"authorid":t[4],"authoricon":t[6],"author":t[5],"proxy":proxy})
 
 @app.get("/search", response_class=HTMLResponse,)
-def search(q:str,response: Response,request: Request,page:Union[int,None]=1,yuki: Union[str] = Cookie(None),proxy: Union[str] = Cookie(None)):
-    if not(check_cokie(yuki)):
+def search(q:str,response: Response,request: Request,page:Union[int,None]=1,おちぃ〜: Union[str] = Cookie(None),proxy: Union[str] = Cookie(None)):
+    if not(check_cokie(おちぃ〜)):
         return redirect("/")
-    response.set_cookie("yuki","True",max_age=60 * 60 * 24 * 7)
+    response.set_cookie("おちぃ〜","True",max_age=60 * 60 * 24 * 7)
     return template("search.html", {"request": request,"results":get_search(q,page),"word":q,"next":f"/search?q={q}&page={page + 1}","proxy":proxy})
 
 @app.get("/hashtag/{tag}")
-def search(tag:str,response: Response,request: Request,page:Union[int,None]=1,yuki: Union[str] = Cookie(None)):
-    if not(check_cokie(yuki)):
+def search(tag:str,response: Response,request: Request,page:Union[int,None]=1,おちぃ〜: Union[str] = Cookie(None)):
+    if not(check_cokie(おちぃ〜)):
         return redirect("/")
     return redirect(f"/search?q={tag}")
 
 
 @app.get("/channel/{channelid}", response_class=HTMLResponse)
-def channel(channelid:str,response: Response,request: Request,yuki: Union[str] = Cookie(None),proxy: Union[str] = Cookie(None)):
-    if not(check_cokie(yuki)):
+def channel(channelid:str,response: Response,request: Request,おちぃ〜: Union[str] = Cookie(None),proxy: Union[str] = Cookie(None)):
+    if not(check_cokie(おちぃ〜)):
         return redirect("/")
-    response.set_cookie("yuki","True",max_age=60 * 60 * 24 * 7)
+    response.set_cookie("おちぃ〜","True",max_age=60 * 60 * 24 * 7)
     t = get_channel(channelid)
     return template("channel.html", {"request": request,"results":t[0],"channelname":t[1]["channelname"],"channelicon":t[1]["channelicon"],"channelprofile":t[1]["channelprofile"],"proxy":proxy})
 
@@ -231,18 +231,18 @@ def set_cokie(q:str):
     return f"level{t}\n覚えておきたいレベル"
 
 @app.get("/playlist", response_class=HTMLResponse)
-def playlist(list:str,response: Response,request: Request,page:Union[int,None]=1,yuki: Union[str] = Cookie(None),proxy: Union[str] = Cookie(None)):
-    if not(check_cokie(yuki)):
+def playlist(list:str,response: Response,request: Request,page:Union[int,None]=1,おちぃ〜: Union[str] = Cookie(None),proxy: Union[str] = Cookie(None)):
+    if not(check_cokie(おちぃ〜)):
         return redirect("/")
-    response.set_cookie("yuki","True",max_age=60 * 60 * 24 * 7)
+    response.set_cookie("おちぃ〜","True",max_age=60 * 60 * 24 * 7)
     return template("search.html", {"request": request,"results":get_playlist(list,str(page)),"word":"","next":f"/playlist?list={list}","proxy":proxy})
 
 @app.get("/info", response_class=HTMLResponse)
-def viewlist(response: Response,request: Request,yuki: Union[str] = Cookie(None)):
+def viewlist(response: Response,request: Request,おちぃ〜: Union[str] = Cookie(None)):
     global apis,apichannels,apicomments
-    if not(check_cokie(yuki)):
+    if not(check_cokie(おちぃ〜)):
         return redirect("/")
-    response.set_cookie("yuki","True",max_age=60 * 60 * 24 * 7)
+    response.set_cookie("おちぃ〜","True",max_age=60 * 60 * 24 * 7)
     return template("info.html",{"request": request,"Youtube_API":apis[0],"Channel_API":apichannels[0],"Comments_API":apicomments[0]})
 
 @app.get("/suggest")
@@ -258,15 +258,15 @@ def thumbnail(v:str):
     return Response(content = requests.get(fr"https://img.youtube.com/vi/{v}/0.jpg").content,media_type=r"image/jpeg")
 
 @app.get("/bbs",response_class=HTMLResponse)
-def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="",channel:Union[str,None]="main",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None)):
-    if not(check_cokie(yuki)):
+def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="",channel:Union[str,None]="main",verify:Union[str,None]="false",おちぃ〜: Union[str] = Cookie(None)):
+    if not(check_cokie(おちぃ〜)):
         return redirect("/")
-    res = HTMLResponse(requests.get(fr"{url}bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text)
+    res = HTMLResponse(requests.get(fr"{url}bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}",cookies={"おちぃ〜":"True"}).text)
     return res
 
 @cache(seconds=5)
 def bbsapi_cached(verify,channel):
-    return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(str(int(time.time()*1000)))}&verify={urllib.parse.quote(verify)}&channel={urllib.parse.quote(channel)}",cookies={"yuki":"True"}).text
+    return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(str(int(time.time()*1000)))}&verify={urllib.parse.quote(verify)}&channel={urllib.parse.quote(channel)}",cookies={"おちぃ〜":"True"}).text
 
 @app.get("/bbs/api",response_class=HTMLResponse)
 def view_bbs(request: Request,t: str,channel:Union[str,None]="main",verify: Union[str,None] = "false"):
@@ -274,10 +274,10 @@ def view_bbs(request: Request,t: str,channel:Union[str,None]="main",verify: Unio
     return bbsapi_cached(verify,channel)
 
 @app.get("/bbs/result")
-def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,None] = "",channel:Union[str,None]="main",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None)):
+def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,None] = "",channel:Union[str,None]="main",verify:Union[str,None]="false",おちぃ〜: Union[str] = Cookie(None)):
     if not(check_cokie(yuki)):
         return redirect("/")
-    t = requests.get(fr"{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}&info={urllib.parse.quote(get_info(request))}",cookies={"yuki":"True"}, allow_redirects=False)
+    t = requests.get(fr"{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}&info={urllib.parse.quote(get_info(request))}",cookies={"おちぃ〜":"True"}, allow_redirects=False)
     if t.status_code != 307:
         return HTMLResponse(t.text)
     return redirect(f"/bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}")
@@ -287,8 +287,8 @@ def how_cached():
     return requests.get(fr"{url}bbs/how").text
 
 @app.get("/bbs/how",response_class=PlainTextResponse)
-def view_commonds(request: Request,yuki: Union[str] = Cookie(None)):
-    if not(check_cokie(yuki)):
+def view_commonds(request: Request,おちぃ〜: Union[str] = Cookie(None)):
+    if not(check_cokie(おちぃ〜)):
         return redirect("/")
     return how_cached()
 
